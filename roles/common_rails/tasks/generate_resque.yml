@@ -1,3 +1,0 @@
----
-- name: generate resque.yml
-  template: src=resque.yml.j2 dest={{ shared_path }}/config/resque.yml owner={{ user }}

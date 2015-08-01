@@ -1,6 +1,0 @@
----
-- name: Configure Background Servers
-  hosts: bgservers
-  remote_user: deploy
-  roles:
-    - background

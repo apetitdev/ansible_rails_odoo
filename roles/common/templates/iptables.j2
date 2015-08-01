@@ -22,6 +22,8 @@
 -A INPUT -p tcp --dport 6379 -j ACCEPT
 # Allow connetctions on 5432 for postgresql
 -A INPUT -p tcp --dport 5432 -j ACCEPT
+# Allow connetctions on 8069 for odoo
+-A INPUT -p tcp --dport 8069 -j ACCEPT
 #  Allow ping
 -A INPUT -p icmp -j ACCEPT
 #  Log iptables denied calls

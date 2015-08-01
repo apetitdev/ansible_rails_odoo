@@ -1,6 +1,0 @@
----
-- name: Configure Pubsub Servers
-  hosts: pubsubservers
-  remote_user: deploy
-  roles:
-    - pubsub

@@ -21,7 +21,7 @@ user: deploy
 rbenv_version: v0.4.0
 rbenv_root: /home/deploy/.rbenv
 rbenv_user: "deploy"
-ruby_version: "2.1.5"
+ruby_version: "2.0.0-p195"
 
 # Monit
 monit_log: "{{ shared_path }}/log/monit.log"
@@ -51,3 +51,36 @@ unicorn_config: "{{ shared_path }}/config/unicorn.rb"
 unicorn_log: "{{ shared_path }}/log/unicorn.log"
 unicorn_socket: /tmp/unicorn.{{ application }}.sock
 unicorn_workers: 4
+
+
+# RVM
+rvm1_temp_download_path: '/tmp'
+rvm1_user: 'deploy'
+rvm1_default_ruby_version: '{{ rvm1_rubies | last if rvm1_rubies and rvm1_rubies is iterable else "" }}'
+rvm1_rvm: '{{ rvm1_install_path }}/bin/rvm'
+rvm1_rvm_version: 'stable'
+rvm1_symlink_binaries:
+  - 'bundle'
+  - 'bundler'
+  - 'erb'
+  - 'executable-hooks-uninstaller'
+  - 'gem'
+  - 'irb'
+  - 'rake'
+  - 'rdoc'
+  - 'ri'
+  - 'ruby'
+  - 'testrb'
+
+rvm1_symlink_to: '/usr/local/bin'
+rvm1_install_flags: '--auto-dotfiles'
+rvm1_ruby_install_flags: '--auto-dotfiles'
+rvm1_install_path: '/home/deploy/.rvm'
+rvm1_rvm_latest_installer: 'https://raw.githubusercontent.com/wayneeseguin/rvm/master/binscripts/rvm-installer'
+rvm1_rubies:
+  - 'ruby-2.0.0-p195'
+rvm1_gpg_keys: 'D39DC0E3'
+rvm1_gpg_key_server: 'hkp://keys.gnupg.net'
+rvm1_autolib_mode: 3
+rvm1_rvm_check_for_updates: True
+rvm1_delete_ruby: ''

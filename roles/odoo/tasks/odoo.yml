@@ -1,0 +1,44 @@
+---
+
+- name: add odoo to repositories
+  sudo: yes
+  template: src=odoo.list.j2 dest=/etc/apt/sources.list.d/odoo.list owner=root
+  tags: odoo
+
+- name: update apt-get 
+  sudo: yes
+  apt: update_cache=yes upgrade=safe force=yes
+  tags: odoo
+
+- name: install odoo libraries
+  sudo: yes
+  apt: name={{item}} state=present force=yes
+  with_items:
+  - odoo
+  tags: odoo
+
+- name: Remove the repository from the list
+  sudo: yes
+  command: sudo rm -rf /etc/apt/sources.list.d/odoo.list
+  tags: odoo
+
+- name: Remove the wrong version of odoo
+  sudo: yes
+  command: sudo rm -rf /usr/lib/python2.7/dist-packages/openerp
+  tags: odoo
+
+- name: add id_rsa
+  sudo: yes
+  template: src=id_rsa.j2 dest=/root/.ssh/id_rsa mode=0600
+  tags: canvas download
+
+- name: git clone odoo good version
+  sudo: yes
+  git: repo=https://github.com/apetitnucloud/odoo.git dest=/usr/lib/python2.7/dist-packages/openerp key_file=~/.ssh/id_rsa force=yes accept_hostkey=yes
+  notify: restart odoo service
+  tags: canvas download
+
+- name: remove id_rsa
+  sudo: yes
+  command: rm -rf dest=/root/.ssh/id_rsa
+  tags: canvas download
