@@ -2,3 +2,7 @@
 - name: restart odoo service
   sudo: yes
   service: name=odoo state=restarted
+
+- name: restart postgresql
+  sudo: yes
+  service: name=postgresql state=restarted

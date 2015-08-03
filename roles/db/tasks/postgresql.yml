@@ -7,7 +7,6 @@
 
 - meta: flush_handlers # We need to run this handler so the auth methods are relaxed
 
-
 - name: create postgres user
   postgresql_user: login_host=localhost name={{ user }} password={{ postgresql_password }} fail_on_user=yes state=present role_attr_flags=CREATEDB,SUPERUSER
   ignore_errors: True
