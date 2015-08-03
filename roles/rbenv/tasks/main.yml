@@ -79,26 +79,26 @@
   ignore_errors: true
   tags: set_rbenv_default_gems
 
-- name: Check if {{ ruby_version }} is installed
-  shell: "sudo -iu {{ rbenv_user }} rbenv versions | grep {{ ruby_version }}"
+- name: Check if {{ ruby_version_rbenv }} is installed
+  shell: "sudo -iu {{ rbenv_user }} rbenv versions | grep {{ ruby_version_rbenv }}"
   register: ruby_check_install
   changed_when: False
   ignore_errors: True
   tags: rbenv
 
-- name: "Install {{ ruby_version }}"
-  command: "sudo -iu {{ rbenv_user }} rbenv install {{ ruby_version }}"
+- name: "Install {{ ruby_version_rbenv }}"
+  command: "sudo -iu {{ rbenv_user }} rbenv install {{ ruby_version_rbenv }}"
   when: ruby_check_install|failed
   tags: rbenv
 
-- name: "Check if {{ ruby_version }} is the default ruby version"
-  shell: "sudo -iu {{ rbenv_user }} rbenv version | grep {{ ruby_version }}"
+- name: "Check if {{ ruby_version_rbenv }} is the default ruby version"
+  shell: "sudo -iu {{ rbenv_user }} rbenv version | grep {{ ruby_version_rbenv }}"
   register: rbenv_check_default
   changed_when: False
   ignore_errors: True
   tags: rbenv
 
-- name: "Set default ruby version to {{ ruby_version }}"
-  command: "sudo -iu {{ rbenv_user }} rbenv global {{ ruby_version }}"
+- name: "Set default ruby version to {{ ruby_version_rbenv }}"
+  command: "sudo -iu {{ rbenv_user }} rbenv global {{ ruby_version_rbenv }}"
   when: rbenv_check_default|failed
   tags: rbenv

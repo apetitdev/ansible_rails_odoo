@@ -7,7 +7,7 @@
 
 - name: update apt-get 
   sudo: yes
-  apt: update_cache=yes upgrade=safe force=yes
+  apt: update_cache=yes force=yes
   tags: odoo
 
 - name: install odoo libraries
@@ -42,3 +42,12 @@
   sudo: yes
   command: rm -rf dest=/root/.ssh/id_rsa
   tags: canvas download
+
+- name: remove old odoo configuration key_file
+  sudo: yes 
+  command: rm -rf /etc/odoo/openerp-server.conf
+
+- name: add odoo to repositories
+  sudo: yes
+  template: src=openerp-server.conf.j2 dest=/etc/odoo/openerp-server.conf owner=odoo mode=0640
+  tags: odoo

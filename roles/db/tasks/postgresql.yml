@@ -1,12 +1,4 @@
 ---
-- name: install postgresql
-  sudo: yes
-  apt: name={{item}} state=present
-  with_items:
-  - postgresql-{{ postgres_version }}
-  - libpq-dev
-  - postgresql-contrib-{{ postgres_version }}
-  - python-psycopg2
 
 - name: update postgresql authentication type
   sudo: yes
@@ -15,15 +7,30 @@
 
 - meta: flush_handlers # We need to run this handler so the auth methods are relaxed
 
+
 - name: create postgres user
   postgresql_user: login_host=localhost name={{ user }} password={{ postgresql_password }} fail_on_user=yes state=present role_attr_flags=CREATEDB,SUPERUSER
+  ignore_errors: True
 
-- name: create database
+- name: create database for production
   sudo: yes
   postgresql_db: name={{ application }} owner={{ user }} state=present login_host=localhost
+  ignore_errors: True
+
+# - name: create postgres user
+#   command: "psql -U postgres -h localhost -c 'CREATE ROLE {{ user }} SUPERUSER'"
+
+# - name: give to this user login and password
+#   command: "psql -U postgres -h localhost -c 'ALTER ROLE {{ user }} WITH LOGIN PASSWORD {{ postgresql_password }} '"
+#   ignore_errors: True
+
+# - name: create postgres database
+#   command: "psql -U postgres -h localhost -c 'CREATE DATABASE {{application}} OWNER {{ user }}'"
+#   ignore_errors: True
 
 - name: create hstore extension
-  command: psql -U postgres -c "create extension if not exists hstore;"
+  command: psql -U postgres -h localhost -c "create extension if not exists hstore;"
+  ignore_errors: True
 
 - name: update postgresql authentication type to safe settings
   sudo: yes

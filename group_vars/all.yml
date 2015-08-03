@@ -1,27 +1,29 @@
 ---
-# application name
+# application name 
 application: "{{ application_name }}_{{ rails_env }}"
 
 # Local setting for storing generated passwords, SSH key and project directory
 local_home: "{{ lookup('env', 'HOME') }}"
-local_project_directory: "{{ local_home }}/code/urbantigers"
+local_project_directory: "{{ local_home }}/Projects/Personal/{{ application }}"
 local_ssh_key: "{{ local_home }}/.ssh/id_rsa.pub"
 
 # Paths on the remote servers
-current_path: /home/{{ user }}/apps/{{ application }}/current
-shared_path: /home/{{ user }}/apps/{{ application }}/shared
 
 # User configuration
 user: deploy
 # Uncomment the below lines to setup the user groups and password for the deploy user if needed.
 # user_group: sudo
-# user_password: password12345
+# user_password: NewPathway2015-2016!
+current_path: /home/{{ user }}/apps/{{ application }}/current
+shared_path: /home/{{ user }}/apps/{{ application }}/shared
 
 # Ruby
-rbenv_version: v0.4.0
-rbenv_root: /home/deploy/.rbenv
+ruby_url: http://cache.ruby-lang.org/pub/ruby/2.0/ruby-{{ ruby_version }}.tar.gz
 rbenv_user: "deploy"
+rbenv_root: /home/deploy/.rbenv
 ruby_version: "2.0.0-p195"
+rbenv_version: "v0.4.0"
+ruby_version_rbenv: "2.0.0-p594"
 
 # Monit
 monit_log: "{{ shared_path }}/log/monit.log"
@@ -38,20 +40,19 @@ redis_port: 6379
 # Postgresql
 postgres_version: 9.3
 postgresql_host: "{{ groups['dbservers'][0] }}"
-postgresql_database:  "{{ application }}"
+postgresql_database:  "{{ application }}" 
 postgresql_port: 5432
-postgresql_password: "{{ lookup('password', local_home + '/' + application + '/postgresqlpassword length=64') }}"
+postgresql_password: "{{ lookup('password', '/tmp/passwordfile chars=digits') }}"
 postgresql_local_auth_type:  "md5"
-postgresql_pid:  "/var/run/postgresql/{{ postgresql_version }}-main.pid"
-use_hstore:  true
+postgresql_pid:  "/var/run/postgresql/{{ postgresql_version }}-main.pid" 
+use_hstore:  true 
 
 # Unicorn
 unicorn_pid: "{{ current_path }}/tmp/pids/unicorn.pid"
 unicorn_config: "{{ shared_path }}/config/unicorn.rb"
 unicorn_log: "{{ shared_path }}/log/unicorn.log"
 unicorn_socket: /tmp/unicorn.{{ application }}.sock
-unicorn_workers: 4
-
+unicorn_workers: 1
 
 # RVM
 rvm1_temp_download_path: '/tmp'
@@ -84,3 +85,10 @@ rvm1_gpg_key_server: 'hkp://keys.gnupg.net'
 rvm1_autolib_mode: 3
 rvm1_rvm_check_for_updates: True
 rvm1_delete_ruby: ''
+
+# For security encryption
+canvasencryption_key: "{{ lookup('password', '/tmp/passwordfile chars=digits') }}"
+
+# for Session store
+sessionsencrypted_cookie_store: "{{ lookup('password', '/tmp/passwordfile chars=digits') }}"
+

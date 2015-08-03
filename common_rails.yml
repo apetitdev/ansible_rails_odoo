@@ -1,6 +1,6 @@
 ---
-- name: Apply Common Configuration to nodes that need the rails config files
-  hosts: rails
-  remote_user: deploy
+- name: Configure common task for rails
+  hosts: all
+  user: deploy
   roles:
     - common_rails

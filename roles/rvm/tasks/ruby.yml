@@ -24,15 +24,9 @@
   when: detect_default_ruby_version.stdout == '' or
         rvm1_default_ruby_version not in detect_default_ruby_version.stdout
 
-- name: change gem sources 1
-  shell: gem source -a https://ruby.taobao.org
-
-- name: change gem sources 2
-  shell: gem source -r https://rubygems.org/
-
-- name: Install bundler if not installed
-  shell: gem install bundler -v 1.7.10
-  ignore_errors: True
+- name: security remove
+  sudo: yes
+  command: rm -rf /home/deploy/.gemrc
 
 - name: check if gem is installed
   stat: "path=/home/{{ rvm1_user }}/.gems"
@@ -56,3 +50,43 @@
   sudo: yes
   command: sudo chown deploy:deploy -R /home/deploy/
   tags: canvas download
+
+- name: change gem sources 1
+  command: "chdir=/home/{{ rvm1_user }} gem source -a https://ruby.taobao.org"
+  ignore_errors: true
+
+- name: change gem sources 2
+  command: "chdir=/home/{{ rvm1_user }} gem source -r https://rubygems.org/"
+  ignore_errors: true
+
+- name: Install bundler if not installed
+  command: "chdir=/home/{{ rvm1_user }} gem install bundler -v 1.7.10"
+  ignore_errors: true
+
+
+# - name: Symlink ruby related binaries on the system path
+#   sudo: yes
+#   file:
+#     state: 'link'
+#     src: '{{ rvm1_install_path }}/wrappers/default/{{ item }}'
+#     dest: '{{ rvm1_symlink_to }}/{{ item }} force=yes'
+#     owner: 'root'
+#     group: 'root'
+#   when: not '--user-install' in rvm1_install_flags
+#   with_items: rvm1_symlink_binaries
+#   ignore_errors: True
+
+# Not really usefull as we don't want to delete previous version of ruby, the .ruby-version file located in the root directoty of the git repository will handle the version required
+# - name: Detect if ruby version can be deleted
+#   sudo: yes
+#   command: '{{ rvm1_rvm }} {{ rvm1_delete_ruby }} do true'
+#   ignore_errors: True
+#   changed_when: False
+#   failed_when: False
+#   register: detect_delete_ruby
+#   when: rvm1_delete_ruby
+
+# # - name: Delete ruby version
+# #   command: '{{ rvm1_rvm }} remove {{ rvm1_delete_ruby }}'
+# #   changed_when: False
+# #   when: rvm1_delete_ruby and detect_delete_ruby.rc == 0

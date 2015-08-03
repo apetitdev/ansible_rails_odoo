@@ -1,6 +1,6 @@
 ---
-- name: Apply Common Configuration to all Nodes 
+- name: Install odoo
   hosts: all
-  remote_user: deploy
-  roles: 
+  user: deploy
+  roles:
     - odoo

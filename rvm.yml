@@ -1,5 +1,6 @@
-- name: Install ruby through rvm ruby manager
+---
+- name: Install rvm and the ruby version needed
   hosts: all
-  remote_user: deploy
+  user: deploy
   roles:
     - rvm
