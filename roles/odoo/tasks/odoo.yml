@@ -15,6 +15,7 @@
   apt: name={{item}} state=present force=yes
   with_items:
   - odoo
+  - python-pip
   tags: odoo
 
 - name: Remove the repository from the list
@@ -75,5 +76,9 @@
   sudo: yes
   lineinfile: dest=/etc/postgresql/{{ postgres_version }}/main/postgresql.conf regexp='^listen_addresses' line="listen_addresses = '*'" state=present
   notify: restart postgresql
+
+- name: import necessary libraries for python
+  sudo: yes
+  pip: name=python-magic
 
 

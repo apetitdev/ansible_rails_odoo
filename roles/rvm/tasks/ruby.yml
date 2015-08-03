@@ -63,6 +63,11 @@
   command: "chdir=/home/{{ rvm1_user }} gem install bundler -v 1.7.10"
   ignore_errors: true
 
+- name: "Set default ruby version to {{ ruby_version_rbenv }}"
+  command: "sudo -iu {{ rbenv_user }} rbenv global {{ ruby_version }}"
+  when: rbenv_check_default|failed
+  tags: rbenv
+
 
 # - name: Symlink ruby related binaries on the system path
 #   sudo: yes

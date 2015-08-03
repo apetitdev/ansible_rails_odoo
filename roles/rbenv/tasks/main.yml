@@ -98,7 +98,13 @@
   ignore_errors: True
   tags: rbenv
 
-- name: "Set default ruby version to {{ ruby_version_rbenv }}"
-  command: "sudo -iu {{ rbenv_user }} rbenv global {{ ruby_version_rbenv }}"
-  when: rbenv_check_default|failed
-  tags: rbenv
+- name: "Remove this useless gemrc file"
+  sudo: yes
+  command: rm -rf /home/deploy/.gemrc
+  tags: bundler
+
+- name: "Set up bundler "
+  command: "chdir=/home/{{ rbenv_user }}/.rbenv/versions/{{ruby_version}}/lib/ruby/gems/ gem install bundler"
+  tags: bundler
+  ignore_errors: True
+
