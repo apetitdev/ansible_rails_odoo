@@ -26,7 +26,7 @@
 
 - name: security remove
   sudo: yes
-  command: rm -rf /home/deploy/.gemrc
+  command: rm -rf /home/{{ user }}/.gemrc
 
 - name: check if gem is installed
   stat: "path=/home/{{ rvm1_user }}/.gems"
@@ -48,7 +48,7 @@
 
 - name: make the folder usable by deploy user
   sudo: yes
-  command: sudo chown deploy:deploy -R /home/deploy/
+  command: "sudo chown {{ user }}:{{ user }} -R /home/{{ user }}/"
   tags: canvas download
 
 - name: change gem sources 1
@@ -63,10 +63,10 @@
   command: "chdir=/home/{{ rvm1_user }} gem install bundler -v 1.7.10"
   ignore_errors: true
 
-- name: "Set default ruby version to {{ ruby_version_rbenv }}"
-  command: "sudo -iu {{ rbenv_user }} rbenv global {{ ruby_version }}"
-  when: rbenv_check_default|failed
-  tags: rbenv
+# - name: "Set default ruby version to {{ ruby_version_rbenv }}"
+#   command: "sudo -iu {{ rbenv_user }} rbenv global {{ ruby_version }}"
+#   when: rbenv_check_default|failed
+#   tags: rbenv
 
 
 # - name: Symlink ruby related binaries on the system path

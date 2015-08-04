@@ -46,6 +46,7 @@
     - python-software-properties
     - zlib1g
     - zlib1g-dev
+    - libmysqlclient-dev
 
 - include: iptables.yml
 - include: fail2ban.yml

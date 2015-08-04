@@ -1,7 +1,7 @@
 ---
 - include: common.yml
 - include: rbenv.yml
-- include: rvm.yml
+#- include: rvm.yml
 - include: dbservers.yml
 - include: common_rails.yml
 - include: webservers.yml

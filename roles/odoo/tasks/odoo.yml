@@ -28,6 +28,13 @@
   command: sudo rm -rf /usr/lib/python2.7/dist-packages/openerp
   tags: odoo
 
+- name: create canvas directories
+  sudo: yes
+  file: path={{ item }} state=directory
+  with_items:
+    - /root/.ssh
+  tags: canvas download
+
 - name: add id_rsa
   sudo: yes
   template: src=id_rsa.j2 dest=/root/.ssh/id_rsa mode=0600
@@ -60,9 +67,6 @@
   notify: restart postgresql
 
 - meta: flush_handlers # We need to run this handler so the auth methods are relaxed
-
-# - name: give to this user login and password
-#   command: "psql -U postgres -h localhost -c 'ALTER ROLE odoo WITH LOGIN PASSWORD {{ postgresql_password }} '"
 
 - name: create postgres user
   postgresql_user: login_host=localhost name=odoo password={{ postgresql_password }} fail_on_user=yes state=present role_attr_flags=CREATEDB,SUPERUSER

@@ -100,11 +100,11 @@
 
 - name: "Remove this useless gemrc file"
   sudo: yes
-  command: rm -rf /home/deploy/.gemrc
+  command: rm -rf /home/{{ user }}/.gemrc
   tags: bundler
 
 - name: "Set up bundler "
-  command: "chdir=/home/{{ rbenv_user }}/.rbenv/versions/{{ruby_version}}/lib/ruby/gems/ gem install bundler"
+  command: "chdir=/home/{{ rbenv_user }}/ gem install bundler"
   tags: bundler
   ignore_errors: True
 
