@@ -1,0 +1,36 @@
+- name: update apt-get 
+  sudo: yes
+  apt: update_cache=yes force=yes
+
+- name: install postgresql libraries
+  sudo: yes
+  apt: name={{item}} state=present force=yes
+  with_items:
+  - mysql-server
+  - mysql-client
+  - php5-mysql
+  - php5
+  - libmysqlclient-dev
+  - phpmyadmin
+
+- name: import necessary libraries for python
+  sudo: yes
+  pip: name={{item}}
+  with_items:
+    - python-magic
+    - MySQL-python
+  ignore_errors: true
+
+- name: install root user for mysql
+  sudo: yes
+  template: src=my.cnf.j2 dest=/etc/mysql/my.cnf
+  tags: set up mysql
+  notify: restart mysql
+
+- mysql_user: login_user=root login_password={{ mysql_root_password }} name=root password={{ mysql_root_password }} priv=*.*:ALL,GRANT host=localhost
+  tags: update mysql user
+
+- name: Create an empty database on mysql
+  mysql_db: name=condenast state=present login_user=root login_password={{ mysql_root_password }}
+  tags: create website database
+  ignore_errors: true

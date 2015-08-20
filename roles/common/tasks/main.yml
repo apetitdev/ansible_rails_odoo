@@ -46,7 +46,22 @@
     - python-software-properties
     - zlib1g
     - zlib1g-dev
-    - libmysqlclient-dev
+    - python-dev
+
+- name: initialize the good locales 
+  sudo: yes
+  command: sudo locale-gen en_US en_US.UTF-8
+  tags: handle locales
+
+- name: initialize the good locales
+  sudo: yes
+  command: sudo locale-gen en_GB en_GB.UTF-8
+  tags: handle locales
+
+- name: initialize the good locales 
+  sudo: yes
+  command: sudo dpkg-reconfigure locales
+  tags: handle locales
 
 - include: iptables.yml
 - include: fail2ban.yml

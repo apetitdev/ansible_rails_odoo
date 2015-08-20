@@ -92,3 +92,6 @@ canvasencryption_key: "{{ lookup('password', '/tmp/passwordfile chars=digits') }
 # for Session store
 sessionsencrypted_cookie_store: "{{ lookup('password', '/tmp/passwordfile chars=digits') }}"
 
+
+mysql_root_user: 'root'
+mysql_root_password: 'Password1!'

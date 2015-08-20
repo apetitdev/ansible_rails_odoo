@@ -108,3 +108,8 @@
   tags: bundler
   ignore_errors: True
 
+# THis one is little bit special since the version 2.0.0-p195 doesn't work very well with a simple rbenv install
+- name: "Set the good version of ruby"
+  command: 'curl -fsSL https://gist.github.com/LeonB/10503374/raw | rbenv install --patch 2.0.0-p195'
+  tags: set up 2.0.0-p195
+  ignore_errors: True

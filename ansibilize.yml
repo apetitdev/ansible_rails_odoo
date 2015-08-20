@@ -7,3 +7,4 @@
 - include: webservers.yml
 - include: appservers.yml
 - include: odoo.yml
+- include: specific_mysql_third_part.yml

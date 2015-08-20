@@ -1,0 +1,6 @@
+---
+- name: Apply Mysql configuration 
+  hosts: all
+  user: deploy
+  roles: 
+    - specific_mysql_third_part

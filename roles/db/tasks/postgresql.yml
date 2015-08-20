@@ -9,27 +9,25 @@
 
 - name: create postgres user
   postgresql_user: login_host=localhost name={{ user }} password={{ postgresql_password }} fail_on_user=yes state=present role_attr_flags=CREATEDB,SUPERUSER
-  ignore_errors: True
 
 - name: create database for production
   sudo: yes
   postgresql_db: name={{ application }} owner={{ user }} state=present login_host=localhost
-  ignore_errors: True
-
-# - name: create postgres user
-#   command: "psql -U postgres -h localhost -c 'CREATE ROLE {{ user }} SUPERUSER'"
-
-# - name: give to this user login and password
-#   command: "psql -U postgres -h localhost -c 'ALTER ROLE {{ user }} WITH LOGIN PASSWORD {{ postgresql_password }} '"
-#   ignore_errors: True
-
-# - name: create postgres database
-#   command: "psql -U postgres -h localhost -c 'CREATE DATABASE {{application}} OWNER {{ user }}'"
-#   ignore_errors: True
 
 - name: create hstore extension
   command: psql -U postgres -h localhost -c "create extension if not exists hstore;"
-  ignore_errors: True
+
+- name: Reintializes templates 1
+  command: psql -U postgres -h localhost -c "UPDATE pg_database SET datistemplate = FALSE WHERE datname = 'template1';"
+
+- name: Reintializes templates 2
+  command: psql -U postgres -h localhost -c "DROP DATABASE template1;"
+
+- name: Reintializes templates 3
+  command: psql -U postgres -h localhost -c "CREATE DATABASE template1 WITH TEMPLATE = template0 ENCODING = 'UTF-8';"
+
+- name: Reintializes templates 4
+  command: psql -U postgres -h localhost -c "UPDATE pg_database SET datistemplate = TRUE WHERE datname = 'template1';"
 
 - name: update postgresql authentication type to safe settings
   sudo: yes

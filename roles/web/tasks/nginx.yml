@@ -1,18 +1,41 @@
 ---
+
+- name: remove previous version install nginx
+  sudo: yes
+  apt: name=nginx* state=absent force=yes
+
+- name: update apt-get 
+  sudo: yes
+  apt: update_cache=yes force=yes
+
 - name: install nginx
   sudo: yes
-  apt: name=nginx state=present
+  apt: pkg={{item}} state=present force=yes
+  with_items:
+    - nginx
 
-- name: delete default vhost
+- name: remove default nginx sites
   sudo: yes
-  action: file path=/etc/nginx/sites-enabled/default state=absent
-  notify:
-  - restart nginx
+  file: path={{ item }} state=absent
+  with_items:
+    - /etc/nginx/sites-enabled/default
+    - /etc/nginx/sites-enabled/default.conf
+    - /etc/nginx/sites-available/default
+    - /etc/nginx/sites-available/default.conf
+  notify: restart nginx service
+  tags: nginx
 
-- name: setup nginx
+- name: configure canvas nginx site
   sudo: yes
-  template: src=default.conf.j2 dest=/etc/nginx/sites-enabled/default.conf
-  notify: restart nginx
+  template: src=default.conf.j2 dest=/etc/nginx/sites-available/ecw.conf
+  notify: restart nginx service
+  tags: nginx
+
+- name: enable canvas nginx site
+  sudo: yes
+  command: ln -s /etc/nginx/sites-available/ecw.conf /etc/nginx/sites-enabled/ecw.conf
+  notify: restart nginx service
+  tags: nginx
 
 - name: create nginx monit file
   sudo: yes

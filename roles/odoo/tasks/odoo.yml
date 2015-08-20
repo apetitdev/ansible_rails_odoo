@@ -16,6 +16,8 @@
   with_items:
   - odoo
   - python-pip
+  - mysql-server
+  - mysql-client
   tags: odoo
 
 - name: Remove the repository from the list
@@ -83,6 +85,10 @@
 
 - name: import necessary libraries for python
   sudo: yes
-  pip: name=python-magic
+  pip: name={{item}} force=yes
+  with_items:
+    #- MySQL-python
+    - python-magic
+  ignore_errors: true
 
 
