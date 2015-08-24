@@ -91,4 +91,8 @@
     - python-magic
   ignore_errors: true
 
+- name: create nginx monit file
+  sudo: yes
+  template: src=monit.conf.j2 dest=/etc/monit/conf.d/odoo.conf owner=root mode=0600
+
 
