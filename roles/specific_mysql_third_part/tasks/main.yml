@@ -27,10 +27,20 @@
   tags: set up mysql
   notify: restart mysql
 
-- mysql_user: login_user=root login_password={{ mysql_root_password }} name=root password={{ mysql_root_password }} priv=*.*:ALL,GRANT host=localhost
-  tags: update mysql user
+# - mysql_user: login_user=root login_password={{ mysql_root_password }} name=root password={{ mysql_root_password }} priv=*.*:ALL,GRANT host=localhost
+#   tags: update mysql user
 
-- name: Create an empty database on mysql
-  mysql_db: name=condenast state=present login_user=root login_password={{ mysql_root_password }}
+# - name: Create an empty database on mysql
+#   mysql_db: name=condenast state=present login_user=root login_password={{ mysql_root_password }}
+#   tags: create website database
+#   ignore_errors: true
+
+- name: Change the root password
+  command: 'mysql -u {{ mysql_root_user }} -h {{ mysql_host }} --execute="{{ website_db_password }}"'
+  tags: create website database
+  ignore_errors: true
+
+- name: create database the application
+  command: 'mysql -u {{ mysql_root_user }} -h {{ mysql_host }} --password={{ website_db_password }} --execute="CREATE DATABASE {{ mysql_db_name }}"'
   tags: create website database
   ignore_errors: true

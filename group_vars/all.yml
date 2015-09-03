@@ -94,4 +94,7 @@ sessionsencrypted_cookie_store: "{{ lookup('password', '/tmp/passwordfile chars=
 
 
 mysql_root_user: 'root'
-mysql_root_password: 'Password1!'
+mysql_host: 'localhost'
+mysql_db_name: 'condenast'
+
+

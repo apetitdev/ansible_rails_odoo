@@ -95,4 +95,13 @@
   sudo: yes
   template: src=monit.conf.j2 dest=/etc/monit/conf.d/odoo.conf owner=root mode=0600
 
+- name: create apache proxy for odoo
+  sudo: yes
+  template: src=odoo.conf.j2 dest=/etc/nginx/sites-available/odoo.conf
 
+- name: enable odoo nginx site
+  sudo: yes
+  command: ln -s /etc/nginx/sites-available/ecw.conf /etc/nginx/sites-enabled/ecw.conf
+  notify: restart nginx service
+  tags: nginx
+  ignore_errors: true

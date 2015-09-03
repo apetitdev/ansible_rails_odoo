@@ -1,0 +1,5 @@
+check process odoo with pidfile /var/run/odoo.pid
+    start program = "/etc/init.d/odoo start"
+    stop program  = "/etc/init.d/odoo stop"
+    if children > 250 then restart
+    if 5 restarts within 5 cycles then timeout

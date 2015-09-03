@@ -36,6 +36,7 @@
   command: ln -s /etc/nginx/sites-available/ecw.conf /etc/nginx/sites-enabled/ecw.conf
   notify: restart nginx service
   tags: nginx
+  ignore_errors: true
 
 - name: create nginx monit file
   sudo: yes
