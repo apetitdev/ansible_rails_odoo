@@ -1,6 +1,8 @@
-- name: create sudoers file
-  sudo: yes
-  template: src=sudoers.j2 dest=/etc/sudoers.d/{{ user }}_mysqlservers validate='visudo -cf %s' owner=root group=root mode=0440
+---
+# This is mainly for capistrano later since sudo is no longer available in v3
+# - name: create sudoers file
+#   sudo: yes
+#   template: src=sudoers.j2 dest=/etc/sudoers.d/{{ user }}_mysqlservers validate='visudo -cf %s' owner=root group=root mode=0440
 
 - name: update apt-get 
   sudo: yes
@@ -41,7 +43,7 @@
 #   ignore_errors: true
 
 - name: Change the root password
-  command: 'mysql -u {{ mysql_root_user }} -h {{ mysql_host }} --execute="{{ website_db_password }}"'
+  command: 'mysql -u {{ mysql_root_user }} -h {{ mysql_host }} --execute="{{ mysql_change_password }}"'
   tags: create website database
   ignore_errors: true
 

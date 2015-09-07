@@ -96,5 +96,5 @@ sessionsencrypted_cookie_store: "{{ lookup('password', '/tmp/passwordfile chars=
 mysql_root_user: 'root'
 mysql_host: 'localhost'
 mysql_db_name: 'condenast'
-
+mysql_change_password: "SET PASSWORD FOR '{{ mysql_root_user }}'@'{{ mysql_host }}' = PASSWORD('{{ website_db_password }}')"
 
