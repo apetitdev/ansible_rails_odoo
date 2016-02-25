@@ -31,7 +31,7 @@ class basic_server_settings():
 
 	# Private methods
 
-	def __id_generator(self, size=6, chars=string.ascii_uppercase + string.digits):
+	def __id_generator(self, size=36, chars=string.ascii_uppercase + string.digits + "!@#$%^&*()_+}{':?><:"):
 
 		return ''.join(random.choice(chars) for _ in range(size))
 

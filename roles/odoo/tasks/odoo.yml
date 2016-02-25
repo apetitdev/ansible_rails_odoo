@@ -85,7 +85,7 @@
 
 - name: import necessary libraries for python
   sudo: yes
-  pip: name={{item}} force=yes
+  pip: name={{item}}
   with_items:
     #- MySQL-python
     - python-magic
