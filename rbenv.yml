@@ -1,6 +1,6 @@
 ---
 - name: Configure rbenv
   hosts: all
-  user: deploy
+  user: deployer
   roles:
     - rbenv

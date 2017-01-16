@@ -46,7 +46,7 @@
   sudo_user: '{{ rvm1_user }}'
   when: not gem_file_here_installed.stat.exists
 
-- name: make the folder usable by deploy user
+- name: make the folder usable by deployer user
   sudo: yes
   command: "sudo chown {{ user }}:{{ user }} -R /home/{{ user }}/"
   tags: canvas download

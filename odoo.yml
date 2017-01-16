@@ -1,6 +1,6 @@
 ---
 - name: Install odoo
   hosts: all
-  user: deploy
+  user: deployer
   roles:
     - odoo

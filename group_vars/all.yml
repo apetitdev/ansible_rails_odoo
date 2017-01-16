@@ -10,7 +10,7 @@ local_ssh_key: "{{ local_home }}/.ssh/id_rsa.pub"
 # Paths on the remote servers
 
 # User configuration
-user: deploy
+user: deployer
 # Uncomment the below lines to setup the user groups and password for the deploy user if needed.
 # user_group: sudo
 # user_password: NewPathway2015-2016!
@@ -19,11 +19,11 @@ shared_path: /home/{{ user }}/apps/{{ application }}/shared
 
 # Ruby
 ruby_url: http://cache.ruby-lang.org/pub/ruby/2.0/ruby-{{ ruby_version }}.tar.gz
-rbenv_user: "deploy"
-rbenv_root: /home/deploy/.rbenv
-ruby_version: "2.0.0-p195"
+rbenv_user: "deployer"
+rbenv_root: /home/deployer/.rbenv
+ruby_version: "2.3.0"
 rbenv_version: "v0.4.0"
-ruby_version_rbenv: "2.0.0-p594"
+ruby_version_rbenv: "2.3.0"
 
 # Monit
 monit_log: "{{ shared_path }}/log/monit.log"
@@ -56,7 +56,7 @@ unicorn_workers: 1
 
 # RVM
 rvm1_temp_download_path: '/tmp'
-rvm1_user: 'deploy'
+rvm1_user: 'deployer'
 rvm1_default_ruby_version: '{{ rvm1_rubies | last if rvm1_rubies and rvm1_rubies is iterable else "" }}'
 rvm1_rvm: '{{ rvm1_install_path }}/bin/rvm'
 rvm1_rvm_version: 'stable'
@@ -79,7 +79,7 @@ rvm1_ruby_install_flags: '--auto-dotfiles'
 rvm1_install_path: '/home/{{ user }}/.rvm'
 rvm1_rvm_latest_installer: 'https://raw.githubusercontent.com/wayneeseguin/rvm/master/binscripts/rvm-installer'
 rvm1_rubies:
-  - 'ruby-2.0.0-p195'
+  - '2.3.0'
 rvm1_gpg_keys: 'D39DC0E3'
 rvm1_gpg_key_server: 'hkp://keys.gnupg.net'
 rvm1_autolib_mode: 3

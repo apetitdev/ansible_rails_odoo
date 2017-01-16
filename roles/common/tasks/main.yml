@@ -1,9 +1,9 @@
 ---
-- name: update deploy user 
+- name: update deployer user 
   sudo: yes
   user: name={{user}} state=present generate_ssh_key=yes ssh_key_bits=2048
 
-- name: copy local ssh keys to deploy user
+- name: copy local ssh keys to deployer user
   copy: src={{local_ssh_key}} dest=/home/{{user}}/.ssh/authorized_keys owner={{user}}
 
 - name: Disallow root SSH access

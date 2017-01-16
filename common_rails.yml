@@ -1,6 +1,6 @@
 ---
 - name: Configure common task for rails
   hosts: all
-  user: deploy
+  user: deployer
   roles:
     - common_rails
